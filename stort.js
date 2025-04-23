@@ -31,11 +31,19 @@
       // Determine if specific columns are marked as sortable.
       const hasSortableColumns = table.querySelectorAll("th.sortable-column").length > 0;
 
+      if (hasSortableColumns === false){
+        table.querySelectorAll("th:not(:empty)").forEach((header, columnIndex) => {
+          header.classList.add('sortable-column');
+        });
+      }
+
       // Select headers to attach click events to. If specific columns are marked as sortable, select only those.
-      const headersSelector = hasSortableColumns ? "th.sortable-column" : "th:not(:empty)";
-      const headers = table.querySelectorAll(headersSelector);
+      //const headersSelector = hasSortableColumns ? "th.sortable-column" : "th:not(:empty)";
+      //const headers = table.querySelectorAll(headersSelector);
+      const headers = table.querySelectorAll("th");
 
       headers.forEach((header, columnIndex) => {
+        if (header.classList.contains("sortable-column") === false) return;
         header.addEventListener('click', () => {
           const key = `${tableId}-column-${columnIndex}`;
           // Toggle the sort direction for the clicked column.
